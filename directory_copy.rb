@@ -1,22 +1,33 @@
 def print_header
+  puts
   puts 'The students of Villains Academy'
   puts '--------------------------------'
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
   students = []
-  name = gets.chomp
-  while !name.empty?
-    students.push({name: name, cohort: :november}) 
-    puts "Now we have #{students.count} students"
+  puts
+  
+  print 'Type quit if you are finished with adding students, else hit enter '
+  while gets.chomp != 'quit'
+    puts 'Please enter student information: '
+    print 'name: '
     name = gets.chomp
+    print 'cohort: '
+    cohort = gets.chomp
+    print 'height: '
+    height = gets.chomp
+    print 'country of birth: '
+    cob = gets.chomp
+    students.push( {name: name, cohort: cohort, height: height, cob: cob} )
+    puts "You have now #{students.length} student in the register"
+    puts
+    print 'Type quit if you are finished with adding students, else hit enter '
   end
   return students
 end
 
-def print(students)
+def print_students(students)
 
   count = 0
   while count < students.length
@@ -30,10 +41,11 @@ end
 
 def print_footer(students)
   puts "Overall, we have #{students.count} great students"
+  puts
 end
 
 # Method calls
 students = input_students()
 print_header()
-print(students)
+print_students(students)
 print_footer(students)
