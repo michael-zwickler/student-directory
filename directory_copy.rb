@@ -19,6 +19,8 @@ def selection_process(selection)
     end
   when 3
     save_students
+  when 4
+    load_students
   when 9
     exit
   else
@@ -55,7 +57,7 @@ def input_students
 end
 
 def existing_cohorts()
-  cohorts = [:november, :dezember, :january]
+  cohorts = [:November, :Dezember, :January]
 end
 
 def print_menu
@@ -63,6 +65,7 @@ def print_menu
   puts '-- 1 -- Input student'
   puts '-- 2 -- Print list of students'
   puts '-- 3 -- Save students to students.csv'
+  puts '-- 4 -- Load file from students.csv'
   puts '-- 9 -- Exit'
 end
 
@@ -74,6 +77,16 @@ def save_students
       data_array.push(value)   
     end
     file.puts(data_array.join(', '))
+  end
+  file.close
+end
+
+def load_students
+  file = File.open('students.csv', 'r')
+  file.readlines.each do |line|
+    array = line.chomp.split(', ')
+    id, name, cohort, height, cob = array
+  @students.push( {id: id.to_i, name: name, cohort: cohort.to_sym, height: height.to_i, cob: cob} )  
   end
   file.close
 end
