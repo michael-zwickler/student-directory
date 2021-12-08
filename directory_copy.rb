@@ -1,13 +1,27 @@
-def print_header
-  puts
-  puts 'The students of Villains Academy'
-  puts '--------------------------------'
+def interactive_menu
+  students = []
+  loop do
+    print_menu
+    selection = gets.chomp.to_i
+    case selection
+    when 1
+      students = input_students
+    when 2
+      if students.length > 0
+        show_students(students)
+      else
+        puts 'No students entered yet'
+      end
+    when 9
+      break
+    else
+      puts 'I did not get you. Please select again.'
+    end
+  end
 end
 
 def input_students
   students = []
-  puts
-  
   print 'Type quit if you are finished with adding students, else hit enter '
   while gets.chomp != 'quit'
     puts 'Please enter student information: '
@@ -36,7 +50,6 @@ def input_students
 
     students.push( {id: id, name: name, cohort: cohort, height: height, cob: cob} )
     puts "Succesfully added. # of students: #{students.length}"
-    puts
     print 'Type quit if you are finished with adding students, else hit enter '
   end
   return students
@@ -44,6 +57,24 @@ end
 
 def existing_cohorts()
   cohorts = [:november, :dezember, :january]
+end
+
+def print_menu
+  puts 'What do you want to do'
+  puts '-- 1 -- Input students'
+  puts '-- 2 -- Print list of students'
+  puts '-- 9 -- Exit'
+end
+
+def print_header
+  puts 'The students of Villains Academy'
+  puts '--------------------------------'
+end
+
+def show_students(students)
+  print_header
+  print_students(students) 
+  print_footer(students)
 end
 
 def print_students(students)
@@ -60,14 +91,8 @@ def print_students(students)
 end  
 
 def print_footer(students)
-  puts
   plural_s = 's' if students.length > 1
   puts "Overall, we have #{students.count} great student#{plural_s}!"
-  puts
 end
 
-# Method calls
-students = input_students()
-print_header()
-print_students(students) if students.length > 0
-print_footer(students)
+interactive_menu
