@@ -3,21 +3,24 @@
 def interactive_menu
   loop do
     print_menu
-    selection = gets.chomp.to_i
-    case selection
-    when 1
-      students = input_students
-    when 2
-      if @students.length > 0
-        show_students
-      else
-        puts 'No students entered yet'
-      end
-    when 9
-      break
+    selection_process(gets.chomp.to_i)
+  end
+end
+
+def selection_process(selection)
+  case selection
+  when 1
+    students = input_students
+  when 2
+    if @students.length > 0
+      show_students
     else
-      puts 'I did not get you. Please select again.'
+      puts 'No students entered yet'
     end
+  when 9
+    break
+  else
+    puts 'I did not get you. Please select again.'
   end
 end
 
