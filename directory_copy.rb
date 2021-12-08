@@ -69,5 +69,5 @@ end
 # Method calls
 students = input_students()
 print_header()
-print_students(students)
+print_students(students) if students.length > 0
 print_footer(students)
