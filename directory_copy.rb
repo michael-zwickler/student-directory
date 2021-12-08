@@ -1,5 +1,6 @@
+@students = []
+
 def interactive_menu
-  students = []
   loop do
     print_menu
     selection = gets.chomp.to_i
@@ -7,8 +8,8 @@ def interactive_menu
     when 1
       students = input_students
     when 2
-      if students.length > 0
-        show_students(students)
+      if @students.length > 0
+        show_students
       else
         puts 'No students entered yet'
       end
@@ -21,38 +22,31 @@ def interactive_menu
 end
 
 def input_students
-  students = []
-  print 'Type quit if you are finished with adding students, else hit enter '
-  while gets.chomp != 'quit'
     puts 'Please enter student information: '
-    
-    print 'name: '
+    print 'Name: '
     name = gets.chomp
     name = 'default' if name.empty?
     
-    print 'cohort: '
+    print 'Cohort: '
     cohort = gets.chomp.to_sym
     while !existing_cohorts().include?(cohort)
       existing_cohorts = existing_cohorts().map {|sym| sym.to_s}
-      print "invalid cohort: use #{existing_cohorts} "
+      print "Invalid cohort: use #{existing_cohorts} "
       cohort = gets.chomp.to_sym
     end
           
-    print 'height: '
+    print 'Height: '
     height = gets.chomp
     height = 'default' if height.empty?
     
-    print 'country of birth: '
+    print 'Country of birth: '
     cob = gets.chomp
     cob = 'default' if cob.empty?
 
-    id = 1001 + students.length
+    id = 1001 + @students.length
 
-    students.push( {id: id, name: name, cohort: cohort, height: height, cob: cob} )
-    puts "Succesfully added. # of students: #{students.length}"
-    print 'Type quit if you are finished with adding students, else hit enter '
-  end
-  return students
+    @students.push( {id: id, name: name, cohort: cohort, height: height, cob: cob} )
+    puts "Succesfully added. # of students: #{@students.length}"
 end
 
 def existing_cohorts()
@@ -61,7 +55,7 @@ end
 
 def print_menu
   puts 'What do you want to do'
-  puts '-- 1 -- Input students'
+  puts '-- 1 -- Input student'
   puts '-- 2 -- Print list of students'
   puts '-- 9 -- Exit'
 end
@@ -71,17 +65,16 @@ def print_header
   puts '--------------------------------'
 end
 
-def show_students(students)
+def show_students
   print_header
-  print_students(students) 
-  print_footer(students)
+  print_students
+  print_footer
 end
 
-def print_students(students)
-
+def print_students
   existing_cohorts().each do |cohort|
     puts cohort
-    students.each do |student|
+    @students.each do |student|
       if student[:cohort] == cohort
         puts student
       end
@@ -90,9 +83,9 @@ def print_students(students)
  
 end  
 
-def print_footer(students)
-  plural_s = 's' if students.length > 1
-  puts "Overall, we have #{students.count} great student#{plural_s}!"
+def print_footer
+  plural_s = 's' if @students.length > 1
+  puts "Overall, we have #{@students.count} great student#{plural_s}!"
 end
 
 interactive_menu
