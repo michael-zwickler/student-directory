@@ -18,8 +18,12 @@ def input_students
     
     print 'cohort: '
     cohort = gets.chomp.to_sym
-    cohort = 'default' if cohort.empty?
-    
+    while !existing_cohorts().include?(cohort)
+      existing_cohorts = existing_cohorts().map {|sym| sym.to_s}
+      print "invalid cohort: use #{existing_cohorts} "
+      cohort = gets.chomp.to_sym
+    end
+          
     print 'height: '
     height = gets.chomp
     height = 'default' if height.empty?
@@ -28,7 +32,9 @@ def input_students
     cob = gets.chomp
     cob = 'default' if cob.empty?
 
-    students.push( {name: name, cohort: cohort, height: height, cob: cob} )
+    id = 1001 + students.length
+
+    students.push( {id: id, name: name, cohort: cohort, height: height, cob: cob} )
     puts "You have now #{students.length} student in the register"
     puts
     print 'Type quit if you are finished with adding students, else hit enter '
@@ -36,8 +42,11 @@ def input_students
   return students
 end
 
-def print_students(students)
+def existing_cohorts()
+  cohorts = [:november, :dezember, :january]
+end
 
+def print_students(students)
   count = 0
   while count < students.length
     puts "#{count + 1}: #{students[count]}"
@@ -46,6 +55,7 @@ def print_students(students)
 end  
 
 def print_footer(students)
+  puts
   puts "Overall, we have #{students.count} great students"
   puts
 end
