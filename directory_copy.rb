@@ -17,6 +17,8 @@ def selection_process(selection)
     else
       puts 'No students entered yet'
     end
+  when 3
+    save_students
   when 9
     exit
   else
@@ -60,7 +62,20 @@ def print_menu
   puts 'What do you want to do'
   puts '-- 1 -- Input student'
   puts '-- 2 -- Print list of students'
+  puts '-- 3 -- Save students to students.csv'
   puts '-- 9 -- Exit'
+end
+
+def save_students
+  file = File.open('students.csv', 'w')
+  @students.each do |student|
+    data_array = []
+    student.each_value do |value|
+      data_array.push(value)   
+    end
+    file.puts(data_array.join(', '))
+  end
+  file.close
 end
 
 def print_header
