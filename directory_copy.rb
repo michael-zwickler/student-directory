@@ -17,8 +17,14 @@ def input_students
 end
 
 def print(students)
-  students.each_with_index do |student, index| 
-    puts "#{index + 1}: #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].chr == 'M'
+
+  count = 0
+  while count < students.length
+    name = students[count][:name]
+    cohort = students[count][:cohort]
+
+    puts "#{count + 1}: #{name} (#{cohort} cohort)"
+    count += 1
   end
 end  
 
