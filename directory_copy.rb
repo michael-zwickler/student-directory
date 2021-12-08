@@ -18,7 +18,7 @@ def selection_process(selection)
       puts 'No students entered yet'
     end
   when 9
-    break
+    exit
   else
     puts 'I did not get you. Please select again.'
   end
