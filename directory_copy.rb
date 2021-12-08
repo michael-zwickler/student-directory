@@ -35,7 +35,7 @@ def input_students
     id = 1001 + students.length
 
     students.push( {id: id, name: name, cohort: cohort, height: height, cob: cob} )
-    puts "You have now #{students.length} student in the register"
+    puts "Succesfully added. # of students: #{students.length}"
     puts
     print 'Type quit if you are finished with adding students, else hit enter '
   end
@@ -47,16 +47,22 @@ def existing_cohorts()
 end
 
 def print_students(students)
-  count = 0
-  while count < students.length
-    puts "#{count + 1}: #{students[count]}"
-    count += 1
+
+  existing_cohorts().each do |cohort|
+    puts cohort
+    students.each do |student|
+      if student[:cohort] == cohort
+        puts student
+      end
+    end
   end
+ 
 end  
 
 def print_footer(students)
   puts
-  puts "Overall, we have #{students.count} great students"
+  plural_s = 's' if students.length > 1
+  puts "Overall, we have #{students.count} great student#{plural_s}!"
   puts
 end
 
