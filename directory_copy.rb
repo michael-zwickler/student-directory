@@ -41,18 +41,8 @@ def input_students
       print "Invalid cohort: use #{existing_cohorts} "
       cohort = gets.chomp.to_sym
     end
-          
-    print 'Height: '
-    height = gets.chomp
-    height = 'default' if height.empty?
-    
-    print 'Country of birth: '
-    cob = gets.chomp
-    cob = 'default' if cob.empty?
-
-    id = 1001 + @students.length
-
-    @students.push( {id: id, name: name, cohort: cohort, height: height, cob: cob} )
+     
+    @students.push( {name: name, cohort: cohort} )
     puts "Succesfully added. # of students: #{@students.length}"
 end
 
@@ -81,12 +71,12 @@ def save_students
   file.close
 end
 
-def load_students
-  file = File.open('students.csv', 'r')
+def load_students(filename = 'students.csv')
+  file = File.open(filename, 'r')
   file.readlines.each do |line|
     array = line.chomp.split(', ')
-    id, name, cohort, height, cob = array
-  @students.push( {id: id.to_i, name: name, cohort: cohort.to_sym, height: height.to_i, cob: cob} )  
+    name, cohort = array
+  @students.push( {name: name, cohort: cohort.to_sym} )  
   end
   file.close
 end
