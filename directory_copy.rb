@@ -3,7 +3,7 @@
 def interactive_menu
   loop do
     print_menu
-    selection_process(gets.chomp.to_i)
+    selection_process(STDIN.gets.chomp.to_i)
   end
 end
 
@@ -31,15 +31,15 @@ end
 def input_students
     puts 'Please enter student information: '
     print 'Name: '
-    name = gets.chomp
+    name = STDIN.gets.chomp
     name = 'default' if name.empty?
     
     print 'Cohort: '
-    cohort = gets.chomp.to_sym
+    cohort = STDIN.gets.chomp.to_sym
     while !existing_cohorts().include?(cohort)
       existing_cohorts = existing_cohorts().map {|sym| sym.to_s}
       print "Invalid cohort: use #{existing_cohorts} "
-      cohort = gets.chomp.to_sym
+      cohort = STDIN.gets.chomp.to_sym
     end
      
     @students.push( {name: name, cohort: cohort} )
@@ -71,7 +71,22 @@ def save_students
   file.close
 end
 
+def try_load_students
+  # ARGV is an array that stores the additional input when calling from terminal
+  # ruby directory_copy.rb students.csv will run the .rb file and store students.csv in ARGV
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist"
+    exit
+  end
+end
+
 def load_students(filename = 'students.csv')
+  @students = []
   file = File.open(filename, 'r')
   file.readlines.each do |line|
     array = line.chomp.split(', ')
@@ -109,4 +124,5 @@ def print_footer
   puts "Overall, we have #{@students.count} great student#{plural_s}!"
 end
 
+try_load_students
 interactive_menu
